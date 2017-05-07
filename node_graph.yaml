@@ -1,0 +1,204 @@
+# - nodename: /listener
+#   core : 3
+#   sub_topic:
+#   - /chatter
+#   - /chatter2
+#   pub_topic:
+#   - /chatter_1000
+#   run_time : 10
+#   sched_info: # please write run_time
+#     - core : 1
+#       priority : 99
+#       run_time : 10
+
+ - nodename: /velodyne_driver
+#   nodeindex: 33
+   core : 1
+   sub_topic:
+   pub_topic:
+   - /points_raw
+   run_time : 1
+   deadline: 0
+   period: 100
+#   sched_info:
+
+ - nodename: /voxel_grid_filter
+#   nodeindex: 32
+   core : 1
+   sub_topic:
+   - /points_raw
+   pub_topic:
+   - /filtered_points
+   run_time : 11
+   deadline: 0
+   period: 0
+
+ - nodename: /ndt_matching
+#   nodeindex: 31
+#   core : 10
+   core: 1
+   sub_topic:
+   - /filtered_points
+   pub_topic:
+   - /ndt_pose
+   run_time : 96
+   deadline: 0
+   period: 0
+##   sched_info:
+
+ - nodename: /vel_pose_mux
+   nodeindex: 33
+#   core : 3
+   core: 1
+   sub_topic:
+   - /ndt_pose
+   pub_topic:
+   - /current_pose
+   run_time : 2
+   deadline: 0
+   period: 0
+
+ - nodename: /obj_car/reprojection
+ # nodeindex: 36
+   core : 1
+   sub_topic:
+   - /current_pose
+   - /obj_car/image_obj_tracked
+   pub_topic:
+   - /obj_car/obj_label
+   run_time : 2
+   deadline: 0
+   period: 0
+#   sched_info:
+ - nodename: /points2vscan
+ # nodeindex: 34
+   core : 1
+   sub_topic:
+   - /points_raw
+   pub_topic:
+   - /vscan_points
+   run_time : 2
+   deadline: 0
+   period: 0
+# #   sched_info:
+
+ - nodename: /vscan2image
+#   nodeindex: 35
+   core : 1
+   sub_topic:
+   - /vscan_points
+   pub_topic:
+   - /obj_car/vscan_image
+   run_time : 12
+   deadline: 0
+   period: 0
+
+ - nodename: /camera_driver
+#   nodeindex: 33
+   core : 1
+   sub_topic:
+   pub_topic:
+   - /image_raw
+   run_time : 1
+   deadline : 0
+   period: 100
+#   sched_info:
+   
+ - nodename: /ssd
+#   nodeindex: 36
+   core : 1
+   sub_topic:
+   - /image_raw
+   pub_topic:
+   - /obj_car/image_obj
+   run_time : 48
+   deadline: 0
+   period: 0
+#   sched_info:
+
+ - nodename: /obj_car/ranging
+ #  nodeindex: 36
+   core : 1
+   sub_topic:
+   - /obj_car/image_obj
+   - /obj_car/vscan_image
+   pub_topic:
+   - /obj_car/image_obj_ranged
+   run_time : 10
+   deadline: 0
+   period: 0
+# #   sched_info:
+
+ - nodename: /obj_car/tracking
+ #nodeindex: 36
+   core : 1
+   sub_topic:
+   - /obj_car/image_obj_ranged
+   - /obj_car/image_raw
+   pub_topic:
+   - /obj_car/image_obj_tracked
+   run_time : 298
+   deadline: 0
+   period: 0
+# # sched_info:
+
+
+#   sched_info: # please write order of start_time + run_time
+#     - core : 1
+#       priority : 98
+#       start_time : 0
+#       run_time : 10
+#     - core : 2
+#       priority : 98
+#       start_time : 0
+#       run_time : 20
+#     - core : 3
+#       priority : 98
+#       start_time : 10
+#       run_time : 10
+
+#
+ - nodename: /euclidean_cluster
+#   nodeindex: 41
+#   core: 2
+   core : 1 
+   sub_topic:
+   - /vscan_points
+   pub_topic:
+   - /cluster_centroids
+   run_time : 75
+   deadline: 0
+   period: 0
+#   sched_info:
+#
+##   sched_info:
+#
+#
+#   sched_info:
+
+# - nodename: /points2image
+# #  nodeindex: 35
+#   core : 1
+#   sub_topic:
+#   - /sync_drivers/points_raw
+#   pub_topic:
+#   - /points_image
+#   run_time : 30
+#   deadline: 0
+#   period: 0
+##   sched_info:
+#
+ - nodename: /obj_car/fusion
+ #nodeindex: 36
+   core : 1
+   sub_topic:
+   - /obj_car/obj_label
+   - /cluster_centroids
+   pub_topic:
+   - /obj_car/obj_pose
+   run_time : 2
+   deadline: 400
+   period: 0
+ #  sched_info:
+
+

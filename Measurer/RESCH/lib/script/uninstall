@@ -1,0 +1,8 @@
+#!/bin/sh
+incdir="/usr/include/resch"
+libdir="/usr/lib/resch"
+
+rm -rf $incdir
+rm -fr $libdir
+rm -f /etc/ld.so.conf.d/libresch-x86_64.conf
+ldconfig

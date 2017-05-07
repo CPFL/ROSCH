@@ -1,0 +1,33 @@
+#!/bin/sh
+mode="644"
+incdir="/usr/include/resch"
+libdir="/usr/lib/resch"
+
+# header install. 
+if [ ! -d $incdir ]; then
+	mkdir $incdir
+fi
+cp -f ./api.h $incdir/api.h
+chmod $mode $incdir/api.h
+cp -f ./api_gpu.h $incdir/api_gpu.h
+chmod $mode $incdir/api_gpu.h
+cp -f ./rtx.h $incdir/rtx.h
+chmod $mode $incdir/rtx.h
+
+# library install.
+if [ ! -d $libdir ]; then
+	mkdir $libdir
+fi
+cp -f ./libresch.a $libdir/libresch.a
+cp -f ./libresch_gpu.a $libdir/libresch_gpu.a
+cp -f ./libresch.so.1.0.0 $libdir/libresch.so.1.0.0
+cp -f ./libresch_gpu.so.1.0.0 $libdir/libresch_gpu.so.1.0.0
+echo $libdir > /etc/ld.so.conf.d/libresch-x86_64.conf
+ldconfig 
+ln -sf $libdir/libresch.so.1.0.0 $libdir/libresch.so
+ln -sf $libdir/libresch_gpu.so.1.0.0 $libdir/libresch_gpu.so
+chmod $mode $libdir/libresch.so.1.0.0
+chmod $mode $libdir/libresch_gpu.so.1.0.0
+chmod $mode $libdir/libresch.a
+chmod $mode $libdir/libresch_gpu.a
+

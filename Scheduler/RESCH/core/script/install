@@ -1,0 +1,18 @@
+#!/bin/sh
+module="resch"
+device="resch"
+group="root"
+mode="666"
+
+# invoke insmod with all arguments we got
+# and use a pathname, as newer modutils dont like in . by default
+/sbin/insmod $module.ko $* || exit 1
+
+# remove stale nodes 
+rm -f /dev/${device}*
+
+# make a node
+major=$(awk "\$2==\"resch\" {print \$1}" /proc/devices)
+mknod /dev/${device} c $major 0;
+chgrp $group /dev/${device};
+chmod $mode  /dev/${device};

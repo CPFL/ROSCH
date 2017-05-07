@@ -1,0 +1,6 @@
+cpu: intel core i7 2600k
+core: 8
+memory: 8
+gpu:
+    - nvidia gtx 680
+

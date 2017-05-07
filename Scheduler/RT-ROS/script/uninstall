@@ -1,0 +1,11 @@
+#!/bin/sh
+
+echo "-------- Set original file --------"
+echo "sudo cp /opt/ros/indigo/lib/libroscpp.so.backup /opt/ros/indigo/lib/libroscpp.so"
+sudo cp /opt/ros/indigo/lib/libroscpp.so.backup /opt/ros/indigo/lib/libroscpp.so
+echo "sudo cp /opt/ros/indigo/include/ros/ros.h.backup /opt/ros/indigo/include/ros/ros.h"
+sudo cp /opt/ros/indigo/include/ros/ros.h.backup /opt/ros/indigo/include/ros/ros.h
+if [ -e /opt/ros/indigo/include/ros_rosch ]; then
+    sudo rm -rf /opt/ros/indigo/include/ros_rosch
+fi
+echo "------------------------------------"
