@@ -5,6 +5,7 @@ The supported functions include:
 - __Measurer__  : Measurement of execution time for ROS nodes
 - __Analyzer__  : Analysis for shceduling ROS nodes with Fixed-Priority policy.
 - __Scheduler__ : Real-time Fixed-Priority scheduling depended on Analyzer. 
+- __Tracer__    : Visualization for ROS nodes.  
 
 ## Requirements
 - ROS indigo(Ubuntu 14.04)
@@ -17,6 +18,9 @@ The supported functions include:
      - See [docs/README.analyzer.md](/docs/README.analyzer.md)
  3. Do you want to use __Scheduler__ ?  
      - See [docs/README.scheduler.md](/docs/README.scheduler.md)
+ 4. Do you want to use __Tracer__ ?  
+     - See [docs/README.tracer.md](/docs/README.tracer.md)
+
 
 Once ROSCH is successfully installed, you can install GPU scheduler:
 

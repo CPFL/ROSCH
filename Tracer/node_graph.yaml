@@ -1,4 +1,11 @@
  - nodename: listener
+   sub_topic:
+   pub_topic:
+   - talker
+
 
  - nodename: talker
+   sub_topic:
+   - listener
+   pub_topic:
 
