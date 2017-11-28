@@ -3,7 +3,7 @@
 #include <string>
 #include <ros/ros.h>
 
-const char* rosch::get_node_name(){
+const std::string rosch::get_node_name(){
     std::string nodename = ros::this_node::getName();
-    return nodename.c_str();
+    return nodename;
 }

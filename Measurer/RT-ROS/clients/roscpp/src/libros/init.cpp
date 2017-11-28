@@ -518,6 +518,7 @@ void shutdown() {
   else
     g_shutting_down = true;
 
+	ros_rt_exit();
   ros::console::shutdown();
 
   g_global_queue->disable();

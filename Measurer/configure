@@ -3,7 +3,20 @@
 version=$(uname -r)
 minor=`echo "$version" | sed -r 's/2.6.([0-9]{2}).*/\1/'`
 cpus=$(awk "\$1==\"processor\" {print \$3}" /proc/cpuinfo | wc -l)
-config='./include/resch-config.h'
+config='./RESCH/include/resch-config.h'
+
+os=$(uname -r | awk -F. '{printf "%2d%02d", $1,$2}')
+OS=VIVID_OR_OLDER
+if [ "$os" -ge 401 ]; then
+	OS=XENIAL 
+fi
+	if [ "$os" -ge 404 ]; then
+		OS=YAKKETY
+		if [ "$os" -ge 410 ]; then
+			OS=ZESTY_OR_NEWER
+		fi
+	fi
+#fi
 
 gpus=`lspci | grep VGA | wc -l`
 
@@ -53,6 +66,7 @@ cat > $config << EOF
 EOF
 
 # constant macros.
+echo 'Checking for the OS name... ' $OS
 echo 'Checking for Linux kernel version... '$version
 echo 'Checking for Linux kernel minor version... '$minor
 echo 'Checking for the number of available CPUs... ' $cpus
@@ -61,6 +75,7 @@ echo 'Checking for the maximum number of real-time tasks... ' $tasks
 echo 'Checking for the maximum number of real-time components... ' $components
 
 cat >> $config << EOF
+#define USE_$OS 
 #define LINUX_KERNEL_MINOR_VERSION $minor
 #define NR_RT_CPUS $cpus
 #define NR_RT_TASKS $tasks

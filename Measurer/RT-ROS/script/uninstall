@@ -1,6 +1,17 @@
 #!/bin/sh
 
 echo "-------- Set original file --------"
-echo "sudo cp /opt/ros/indigo/lib/libroscpp.so.backup /opt/ros/indigo/lib/libroscpp.so"
-sudo cp /opt/ros/indigo/lib/libroscpp.so.backup /opt/ros/indigo/lib/libroscpp.so
+
+# For Ubuntu 14.04
+if [ -e /opt/ros/indigo/lib/libroscpp.so.backup ]; then
+	echo "sudo cp /opt/ros/indigo/lib/libroscpp.so.backup /opt/ros/indigo/lib/libroscpp.so"
+	sudo cp /opt/ros/indigo/lib/libroscpp.so.backup /opt/ros/indigo/lib/libroscpp.so
+fi
+
+# For Ubuntu 16.04
+if [ -e /opt/ros/kinetic/lib/libroscpp.so.backup ]; then
+	echo "sudo cp /opt/ros/kinetic/lib/libroscpp.so.backup /opt/ros/kinetic/lib/libroscpp.so"
+	sudo cp /opt/ros/kinetic/lib/libroscpp.so.backup /opt/ros/kinetic/lib/libroscpp.so
+fi
+
 echo "------------------------------------"

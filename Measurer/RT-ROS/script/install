@@ -6,12 +6,29 @@ mkdir $script_dir/../clients/roscpp/build
 cd $script_dir/../clients/roscpp/build/
 cmake ..
 make
-if [ ! -e /opt/ros/indigo/lib/libroscpp.so.backup ]; then
-    echo "-------- Create backup file --------"
+
+# For Ubuntu 14.04 
+if [ -e /opt/ros/indigo/lib/libroscpp.so ]; then
+	if [ ! -e /opt/ros/indigo/lib/libroscpp.so.backup ]; then
+		echo "-------- Create backup file --------"
     echo "sudo cp /opt/ros/indigo/lib/libroscpp.so /opt/ros/indigo/lib/libroscpp.so.backup"
     sudo cp /opt/ros/indigo/lib/libroscpp.so /opt/ros/indigo/lib/libroscpp.so.backup
     echo "------------------------------------"
+	fi
+	sudo cp ./devel/lib/libroscpp.so /opt/ros/indigo/lib/libroscpp.so
+	echo "-------- Set real-time ROS file --------"
+	echo "sudo cp ./devel/lib/libroscpp.so /opt/ros/indigo/lib/libroscpp.so"
 fi
-sudo cp ./devel/lib/libroscpp.so /opt/ros/indigo/lib/libroscpp.so
-echo "-------- Set real-time ROS file --------"
-echo "sudo cp ./devel/lib/libroscpp.so /opt/ros/indigo/lib/libroscpp.so"
+
+# For Ubuntu 16.04 
+if [ -e /opt/ros/kinetic/lib/libroscpp.so ]; then
+	if [ ! -e /opt/ros/kinetic/lib/libroscpp.so.backup ]; then
+		echo "-------- Create backup file --------"
+    echo "sudo cp /opt/ros/kinetic/lib/libroscpp.so /opt/ros/kinetic/lib/libroscpp.so.backup"
+    sudo cp /opt/ros/kinetic/lib/libroscpp.so /opt/ros/kinetic/lib/libroscpp.so.backup
+    echo "------------------------------------"
+	fi
+	sudo cp ./devel/lib/libroscpp.so /opt/ros/kinetic/lib/libroscpp.so
+	echo "-------- Set real-time ROS file --------"
+	echo "sudo cp ./devel/lib/libroscpp.so /opt/ros/kinetic/lib/libroscpp.so"
+fi

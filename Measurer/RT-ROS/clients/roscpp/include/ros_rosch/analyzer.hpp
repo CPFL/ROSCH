@@ -36,7 +36,7 @@ public:
 
 private:
   SingletonNodeGraphAnalyzer *graph_analyzer_;
-  SingletonCoreCountManager *core_count_manager_;
+	SingletonCoreCountManager *core_count_manager_;
   void open_output_file(bool init);
   bool set_affinity(int core);
   unsigned int max_analyze_times_;

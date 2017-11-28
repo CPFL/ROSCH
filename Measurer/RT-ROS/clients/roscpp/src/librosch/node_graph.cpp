@@ -9,7 +9,7 @@ static const int PATH_MAX(128);
 
 NodeGraph::NodeGraph() : v_node_info_(0) {
   std::string self_path(get_selfpath());
-  load_config(std::string("/tmp/node_graph.yaml"));
+  load_config(std::string("/tmp/measurer_rosch.yaml"));
 }
 
 NodeGraph::NodeGraph(const std::string &filename) : v_node_info_(0) {
@@ -34,14 +34,12 @@ void NodeGraph::load_config(const std::string &filename) {
     node_list = YAML::LoadFile(filename);
     for (unsigned int i(0); i < node_list.size(); i++) {
       const YAML::Node subnode_name = node_list[i]["nodename"];
-      const YAML::Node subnode_index = node_list[i]["nodeindex"];
       const YAML::Node subnode_core = node_list[i]["core"];
       const YAML::Node subnode_subtopic = node_list[i]["sub_topic"];
       const YAML::Node subnode_pubtopic = node_list[i]["pub_topic"];
 
       node_info_t node_info;
       node_info.name = subnode_name.as<std::string>();
-      node_info.index = subnode_index.as<int>();
       node_info.index = i;
       node_info.core = subnode_core.as<int>();
       node_info.v_subtopic.resize(0);

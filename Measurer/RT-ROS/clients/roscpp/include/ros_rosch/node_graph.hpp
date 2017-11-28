@@ -7,7 +7,7 @@
 #define DISPLAY_MAX_BUF 32
 #define MAX_LEAF_LIST 16
 
-typedef struct node {
+typedef struct ros_node {
   std::string name;
   int index;
   int core;
@@ -20,10 +20,10 @@ typedef struct node {
   float global_wcet;
   std::vector<std::string> v_sub_topic;
   std::vector<std::string> v_pub_topic;
-  struct node *parent;
-  struct node *child;
-  struct node *next;
-  /* struct node* parent_next; */
+  struct ros_node *parent;
+  struct ros_node *child;
+  struct ros_node *next;
+  /* struct ros_node* parent_next; */
 } node_t;
 
 typedef struct node_info {
