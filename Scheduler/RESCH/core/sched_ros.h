@@ -1,7 +1,7 @@
 #ifndef __RESCH_SCHED_ROS__
 #define __RESCH_SCHED_ROS__
 
-typedef struct node {
+typedef struct ros_node {
     char* name;
     int index;
     int pid;
@@ -10,9 +10,9 @@ typedef struct node {
     float wcet;
     float laxity;
     float global_wcet;
-    struct node* parent;
-    struct node* child;
-    struct node* next;
+    struct ros_node* parent;
+    struct ros_node* child;
+    struct ros_node* next;
     /* struct node* parent_next; */
 } node_t;
 

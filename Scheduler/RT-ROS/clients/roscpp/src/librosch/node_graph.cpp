@@ -9,7 +9,7 @@ using namespace rosch;
 
 NodesInfo::NodesInfo() : v_node_info_(0), config_() {
   std::string filename(config_.get_configpath());
-  loadConfig(std::string("/tmp/node_graph.yaml"));
+  loadConfig(std::string("/tmp/scheduler_rosch.yaml"));
   //    loadConfig(filename);
 }
 
@@ -22,7 +22,7 @@ void NodesInfo::loadConfig(const std::string &filename) {
     node_list = YAML::LoadFile(filename);
     for (unsigned int i(0); i < node_list.size(); i++) {
       const YAML::Node name = node_list[i]["nodename"];
-      const YAML::Node index = node_list[i]["nodeindex"];
+//      const YAML::Node index = node_list[i]["nodeindex"];
       const YAML::Node core = node_list[i]["core"];
       const YAML::Node subtopic = node_list[i]["sub_topic"];
       const YAML::Node pubtopic = node_list[i]["pub_topic"];
@@ -33,6 +33,12 @@ void NodesInfo::loadConfig(const std::string &filename) {
       //      node_info.index = index.as<int>();
       node_info.index = i;
       node_info.core = core.as<int>();
+			
+			node_info.period_count = 0;
+			if(node_info.core >= 2)
+				node_info.is_single_process = false;
+			else
+				node_info.is_single_process = true;
 
       node_info.v_subtopic.resize(0);
       for (int idx(0); idx < subtopic.size(); ++idx) {
@@ -54,7 +60,7 @@ void NodesInfo::loadConfig(const std::string &filename) {
         // sched_info[idx]["start_time"].as<int>();
         // sched_info_element.end_time = sched_info_element.start_time +
         // sched_info_element.run_time;
-        node_info.v_sched_info.push_back(sched_info_element);
+   	    node_info.v_sched_info.push_back(sched_info_element);
       }
 
       v_node_info_.push_back(node_info);

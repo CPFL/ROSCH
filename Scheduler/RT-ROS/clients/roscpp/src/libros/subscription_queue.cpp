@@ -29,12 +29,13 @@
 #include "ros/message_deserializer.h"
 #include "ros/subscription_callback_helper.h"
 //#define ROSCH
-#ifdef ROSCH
+//#ifdef ROSCH
+#include <resch/api.h>
 #include "ros_rosch/bridge.hpp"
-#include "ros_rosch/node_graph.hpp"
-#include <ctime>
-#include <sched.h>
-#endif
+//#include "ros_rosch/node_graph.hpp"
+//#include <ctime>
+//#include <sched.h>
+//#endif
 #define ROSCHEDULER
 #ifdef ROSCHEDULER
 #include "ros_rosch/event_notification.hpp"
@@ -209,7 +210,20 @@ void SubscriptionQueue::waitAppThread() {
   ret = event_notification.update(sched_node_manager_.getPollTime());
   //  std::cout << "Poll time: " << sched_node_manager_.getPollTime() <<
   //  std::endl;
+
+
+#ifndef USE_LINUX_SYSTEM_CALL
+#ifdef HYPERPERIOD_MODE
+	cpu_set_t mask;
+	CPU_ZERO(&mask);
+
+	set_affinity(sched_node_manager_.getUseCores());
+	ros_rt_set_priority(sched_node_manager_.getPriority());
+#endif
+#endif
+	
   if (ret != 1) {
+		std::cout << "PID = " << getpid() << std::endl;
     std::cout << "==== Deadline miss!! ====" << std::endl;
     std::cout << "Remain Topics: "
               << sched_node_manager_.publish_counter.getRemainPubTopicSize()

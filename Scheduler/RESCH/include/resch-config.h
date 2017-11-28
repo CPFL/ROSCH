@@ -6,11 +6,12 @@
 #ifndef __RESCH_CONFIG_H__
 #define __RESCH_CONFIG_H__
 
-#define LINUX_KERNEL_MINOR_VERSION 3.13.0-101-generic
-#define NR_RT_CPUS 8
+#define USE_YAKKETY 
+#define LINUX_KERNEL_MINOR_VERSION 4.4.0-97-generic
+#define NR_RT_CPUS 2
 #define NR_RT_TASKS 64
 #define NR_RT_COMPONENTS 8
 #define NR_GPU_CARD_LIMIT 1
-#define USE_NVIDIA_DRIVER
+#define USE__DRIVER
 
 #endif /* __RESCH_CONFIG_H__ */

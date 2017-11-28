@@ -6,7 +6,7 @@
 namespace rosch {
     class Config {
     public:
-        Config(const std::string &config_file = "node_graph.yaml",
+        Config(const std::string &config_file = "scheduler_rosch.yaml",
                const std::string &spec_file = "hardware_spec.yaml");
         ~Config();
         std::string get_configpath();

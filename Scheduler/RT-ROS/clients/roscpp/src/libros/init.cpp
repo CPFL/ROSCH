@@ -64,12 +64,15 @@
 
 #include <cstdlib>
 
+#include <sys/types.h> 
+#include <unistd.h>
 /* RESCHECULER */
-//#include <resch/api.h>
+#include <resch/api.h>
 #include "ros_rosch/node_graph.hpp"
 #include "ros_rosch/publish_counter.h"
 #include "ros_rosch/task_attribute_processer.h"
 #include "ros_rosch/type.h"
+#include "ros_rosch/bridge.hpp"
 #if 0
 // RESCHECULER SCHED_DEADLINE
 // #define _GNU_SOURCE
@@ -175,13 +178,13 @@ void checkForShutdown() {
     // Since this gets run from within a mutex inside PollManager, we need to
     // prevent ourselves from deadlocking with
     // another thread that's already in the middle of shutdown()
-    boost::recursive_mutex::scoped_try_lock lock(g_shutting_down_mutex,
+		boost::recursive_mutex::scoped_try_lock lock(g_shutting_down_mutex,
                                                  boost::defer_lock);
     while (!lock.try_lock() && !g_shutting_down) {
       ros::WallDuration(0.001).sleep();
     }
 
-    if (!g_shutting_down) {
+    if (!g_shutting_down) { 
       shutdown();
     }
 
@@ -482,11 +485,25 @@ void init(const M_string &remappings, const std::string &name,
         rosch::SingletonSchedNodeManager::getInstance());
     sched_node_manager.init(node_info);
 
-    rosch::TaskAttributeProcesser task_attr_proc;
     std::vector<pid_t> v_pid;
     v_pid.push_back(0);
+
+#ifndef USE_LINUX_SYSTEM_CALL
+		cpu_set_t mask;
+		CPU_ZERO(&mask);
+
+		ros_rt_init("temp");
+
+		// for distribution system
+		set_affinity(sched_node_manager.getUseCores());
+
+	  ros_rt_set_scheduler(SCHED_FP);
+		ros_rt_set_priority(sched_node_manager.getPriority());
+#else
+		rosch::TaskAttributeProcesser task_attr_proc;
     task_attr_proc.setCoreAffinity(sched_node_manager.getUseCores());
     task_attr_proc.setRealtimePriority(v_pid, sched_node_manager.getPriority());
+#endif
     {
       std::cout << "==== Node Infomation ====" << std::endl
                 << "Name:" << node_info.name << std::endl;
@@ -544,6 +561,27 @@ void init(const M_string &remappings, const std::string &name,
 #endif /* RESCH DEBUG */
     g_initialized = true;
   }
+}
+
+bool set_affinity(std::vector<int> v_core)
+{
+  if (v_core.size() == 0) {
+		std::cerr << "[node(" << getpid() <<")] Failed to set CPU affinity" << std::endl;
+    return false;
+  }
+  cpu_set_t mask;
+  CPU_ZERO(&mask);
+  std::cout << "setCoreAffinity:";
+  for (int i = 0; i < (int)v_core.size(); ++i) {
+    std::cout << v_core.at(i) << ",";
+    CPU_SET(v_core.at(i), &mask);
+  }
+  std::cout << std::endl;
+  if (sched_setaffinity(0, sizeof(mask), &mask) == -1) {
+    std::cerr << " ** Failed to set CPU affinity" << std::endl;
+    return false;
+  }
+  return true;
 }
 
 void init(int &argc, char **argv, const std::string &name, uint32_t options) {
@@ -624,7 +662,11 @@ void shutdown() {
   else
     g_shutting_down = true;
 
-  ros::console::shutdown();
+#ifndef USE_LINUX_SYSTEM_CALL
+		ros_rt_exit();
+#endif
+
+	ros::console::shutdown();
 
   g_global_queue->disable();
   g_global_queue->clear();

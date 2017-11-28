@@ -63,15 +63,30 @@ bool SingletonSchedNodeManager::isRanFailSafeFunction() {
 }
 std::vector<int> SingletonSchedNodeManager::getUseCores() {
   std::vector<int> v_core;
-  for (int i = 0; i < (int)node_info_.v_sched_info.size(); ++i) {
-    v_core.push_back(node_info_.v_sched_info.at(i).core);
-  }
+
+	if(node_info_.is_single_process == false){ 
+    for (int i = 0; i < (int)node_info_.v_sched_info.size(); ++i) {
+      v_core.push_back(node_info_.v_sched_info.at(i).core);
+	  }
+	}
+	else{
+		v_core.push_back(node_info_.v_sched_info.at(node_info_.period_count).core);
+		if(node_info_.v_sched_info.size() -1 > node_info_.period_count)
+			node_info_.period_count++;
+		else
+			node_info_.period_count = 0;
+	}
   return v_core;
 }
 
 int SingletonSchedNodeManager::getPriority() {
-  if (node_info_.v_sched_info.size() > 0)
-    return node_info_.v_sched_info.at(0).priority;
+  if (node_info_.v_sched_info.size() > 0){
+		if(node_info_.is_single_process == false)
+	    return node_info_.v_sched_info.at(0).priority;
+		else{
+			return node_info_.v_sched_info.at(node_info_.period_count).priority;
+		}
+	}
   else
     return -1;
 }

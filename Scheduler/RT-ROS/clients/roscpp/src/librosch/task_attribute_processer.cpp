@@ -4,17 +4,31 @@
 #include <sched.h>
 #include <unistd.h>
 #include <vector>
+#include <errno.h>
+#include <stdio.h>
+#include <string.h>
 
 using namespace rosch;
 
 void TaskAttributeProcesser::setRealtimePriority(std::vector<pid_t> v_pid,
                                                  int prio) {
+	int ret =0;
+	int number;
+
   if (prio > 0) {
     std::cout << "setRealtimePriority:" << prio << std::endl;
     struct sched_param sp;
     sp.sched_priority = prio;
     for (int i = 0; i < (int)v_pid.size(); ++i) {
-      sched_setscheduler(v_pid.at(i), SCHED_FIFO, &sp);
+      ret = sched_setscheduler(v_pid.at(i), SCHED_FIFO, &sp);
+			number = errno;
+		  if(ret == -1){
+				printf("\n");
+				perror("print error string by perror  ");
+				printf("print error string by strerror: %s\n", strerror(number));
+				printf("print error code: %d\n", number);
+				printf("print return code: %d\n", ret);
+			}
     }
   } else {
     std::cerr << "Failed to setRealtimePriority:" << prio << std::endl;

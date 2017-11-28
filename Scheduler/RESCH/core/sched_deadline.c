@@ -7,9 +7,11 @@
  */
 
 #include <resch-core.h>
+#include <resch-config.h>
 #include "sched.h"
 #include "sched_deadline.h"
 #include <linux/slab.h>
+#include <linux/ktime.h>
 #ifndef CONFIG_AIRS
 #define SCHED_FCBS 		0x20000000
 #define SCHED_FCBS_NO_CATCH_UP	0x10000000
@@ -62,8 +64,12 @@ int sched_wait_interval(int flags, const struct timespec __user * rqtp, struct t
 	    ktime_t rmt;
 	    struct timespec rmt_ts;
 	    rmt = hrtimer_expires_remaining(&t.timer);
-	    if (rmt.tv64 > 0)
-		goto out;
+#ifdef USE_ZESTY_OR_NEWER
+			if (rmt > 0) /* may be needed to fix for Ubuntu 16.04 */
+#else
+	    if (rmt.tv64 > 0) 
+#endif
+				goto out;
 	    rmt_ts = ktime_to_timespec(rmt);
 	    if (!timespec_valid(&rmt_ts))
 		goto out;

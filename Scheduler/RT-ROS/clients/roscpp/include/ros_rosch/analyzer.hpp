@@ -11,10 +11,12 @@ namespace rosch
 class Analyzer : ExecTime
 {
   public:
+#if 0
     explicit Analyzer(const std::string &node_name,
                       const std::string &topic,
                       const unsigned int &max_times = 100,
                       const unsigned int &ignore_times = 20);
+#endif
     ~Analyzer();
     void start_time();    //
     void end_time();      //
@@ -38,8 +40,8 @@ class Analyzer : ExecTime
     void core_refresh();
 
   private:
-    SingletonNodeGraphAnalyzer *graph_analyzer_;
-    SingletonCoreCountManager *core_count_manager_;
+		//rosch::SingletonNodeGraphAnalyzer *graph_analyzer_;
+		//rosch::SingletonCoreCountManager *core_count_manager_;
     void open_output_file(bool init);
     bool set_affinity(int core);
     unsigned int max_analyze_times_;

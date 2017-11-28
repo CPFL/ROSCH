@@ -60,7 +60,7 @@ std::string to_string(T value)
     //convert the string stream into a string and return
     return os.str();
 }
-
+#if 0
 Analyzer::Analyzer(const std::string &node_name,
                    const std::string &topic,
                    const unsigned int &max_times,
@@ -86,7 +86,7 @@ Analyzer::Analyzer(const std::string &node_name,
         open_output_file(true);
     }
 }
-
+#endif
 Analyzer::~Analyzer()
 {
     if (is_in_node_graph() && is_target_topic())
@@ -270,12 +270,12 @@ void Analyzer::set_rt()
     }
     is_aleady_rt_ = true;
 
+    ros_rt_set_scheduler(SCHED_FP);
     cpu_set_t mask;
     CPU_ZERO(&mask);
     int index = graph_analyzer_->get_node_index(node_name_);
     set_affinity(core_count_manager_->get_core());
     int prio = 99;
-    ros_rt_set_scheduler(SCHED_FP); /* you can also set SCHED_EDF. */
     ros_rt_set_priority(prio);
 }
 
