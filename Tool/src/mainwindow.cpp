@@ -139,7 +139,7 @@ void MainWindow::highlightChecked(QListWidgetItem *item)
 
     element.name = (topic_list.at(index));
     element.index = index;
-    element.core = 0;     /* template value */
+    element.core = 1;     /* template value */
     element.runtime = 0;  /* template value */
     element.deadline = 0; /* template value */
     element.depend = depend_info;
