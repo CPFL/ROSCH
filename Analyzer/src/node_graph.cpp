@@ -201,14 +201,6 @@ SingletonNodeGraphAnalyzer::SingletonNodeGraphAnalyzer()
       }
     }
   }
-
-  /* print DAG */
-  // boost::print_graph(g, name.c_str()); //print depedancies
-  std::ofstream file("Graph.dot");
-  boost::write_graphviz(file, g, boost::make_label_writer(name.c_str()));
-  // boost::write_graphviz(file, g, boost::make_label_writer(label));
-  system("dot -Tpng Graph.dot -o Graph.png");
-  system("eog Graph.png");
 }
 
 SingletonNodeGraphAnalyzer::~SingletonNodeGraphAnalyzer()
