@@ -7,6 +7,7 @@ cd $script_dir/../clients/roscpp/build/
 cmake ..
 make
 
+<< COMMENTOUT
 # For Ubuntu 14.04 (indigo) 
 if [ -e /opt/ros/indigo/lib/libroscpp.so ]; then
 	if [ ! -e /opt/ros/indigo/lib/libroscpp.so.backup ]; then
@@ -59,5 +60,52 @@ if [ -e /opt/ros/kinetic/lib/libroscpp.so ]; then
 	echo "sudo cp ./devel/lib/libroscpp.so /opt/ros/kinetic/lib/libroscpp.so"
 	# echo "sudo cp ../include/ros/ros.h /opt/ros/kinetic/include/ros/ros.h"
 	echo "sudo cp ../include/ros_rosch/publish_counter.h /opt/ros/kinetic/include/ros_rosch/publish_counter.h"
+fi
+
+COMMENTOUT
+
+
+
+
+
+DISTRIBUTION="NULL"
+
+if [ -e /opt/ros/indigo/lib/libroscpp.so ]; then
+	DISTRIBUTION="indigo"
+elif [ -e /opt/ros/kinetic/lib/libroscpp.so ]; then
+	DISTRIBUTION="kinetic"
+elif [ -e /opt/ros/jade/lib/libroscpp.so ]; then
+	DISTRIBUTION="jade" 
+else
+	echo "libroscpp.so does not found" 
+	echo "Stop uninstall script" 
+	exit 1
+fi
+
+
+if [ -e /opt/ros/${DISTRIBUTION}/lib/libroscpp.so ]; then
+	if [ ! -e /opt/ros/${DISTRIBUTION}/lib/libroscpp.so.backup ]; then
+    echo "-------- Create backup file --------"
+    echo "sudo cp /opt/ros/${DISTRIBUTION}/lib/libroscpp.so /opt/ros/${DISTRIBUTION}/lib/libroscpp.so.backup"
+    sudo cp /opt/ros/${DISTRIBUTION}/lib/libroscpp.so /opt/ros/${DISTRIBUTION}/lib/libroscpp.so.backup
+    echo "------------------------------------"
+	fi
+	if [ ! -e /opt/ros/${DISTRIBUTION}/include/ros/ros.h.backup ]; then
+    echo "-------- Create backup file --------"
+    echo "sudo cp /opt/ros/${DISTRIBUTION}/include/ros/ros.h /opt/ros/${DISTRIBUTION}/include/ros/ros.h.backup"
+    sudo cp /opt/ros/${DISTRIBUTION}/include/ros/ros.h /opt/ros/${DISTRIBUTION}/include/ros/ros.h.backup
+    echo "------------------------------------"
+	fi
+	sudo cp ./devel/lib/libroscpp.so /opt/ros/${DISTRIBUTION}/lib/libroscpp.so
+	# sudo cp ../include/ros/ros.h /opt/ros/${DISTRIBUTION}/include/ros/ros.h
+	if [ ! -e /opt/ros/${DISTRIBUTION}/include/ros_rosch ]; then
+    sudo mkdir /opt/ros/${DISTRIBUTION}/include/ros_rosch
+	fi
+	sudo cp ../include/ros_rosch/publish_counter.h /opt/ros/${DISTRIBUTION}/include/ros_rosch/publish_counter.h
+	sudo cp ../include/ros_rosch/type.h /opt/ros/${DISTRIBUTION}/include/ros_rosch/type.h
+	echo "-------- Set real-time ROS file --------"
+	echo "sudo cp ./devel/lib/libroscpp.so /opt/ros/${DISTRIBUTION}/lib/libroscpp.so"
+	# echo "sudo cp ../include/ros/ros.h /opt/ros/${DISTRIBUTION}/include/ros/ros.h"
+	echo "sudo cp ../include/ros_rosch/publish_counter.h /opt/ros/${DISTRIBUTION}/include/ros_rosch/publish_counter.h"
 fi
 
