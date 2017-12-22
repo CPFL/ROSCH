@@ -7,67 +7,6 @@ cd $script_dir/../clients/roscpp/build/
 cmake ..
 make
 
-<< COMMENTOUT
-# For Ubuntu 14.04 (indigo) 
-if [ -e /opt/ros/indigo/lib/libroscpp.so ]; then
-	if [ ! -e /opt/ros/indigo/lib/libroscpp.so.backup ]; then
-    echo "-------- Create backup file --------"
-    echo "sudo cp /opt/ros/indigo/lib/libroscpp.so /opt/ros/indigo/lib/libroscpp.so.backup"
-    sudo cp /opt/ros/indigo/lib/libroscpp.so /opt/ros/indigo/lib/libroscpp.so.backup
-    echo "------------------------------------"
-	fi
-	if [ ! -e /opt/ros/indigo/include/ros/ros.h.backup ]; then
-    echo "-------- Create backup file --------"
-    echo "sudo cp /opt/ros/indigo/include/ros/ros.h /opt/ros/indigo/include/ros/ros.h.backup"
-    sudo cp /opt/ros/indigo/include/ros/ros.h /opt/ros/indigo/include/ros/ros.h.backup
-    echo "------------------------------------"
-	fi
-	sudo cp ./devel/lib/libroscpp.so /opt/ros/indigo/lib/libroscpp.so
-	# sudo cp ../include/ros/ros.h /opt/ros/indigo/include/ros/ros.h
-	if [ ! -e /opt/ros/indigo/include/ros_rosch ]; then
-    sudo mkdir /opt/ros/indigo/include/ros_rosch
-	fi
-	sudo cp ../include/ros_rosch/publish_counter.h /opt/ros/indigo/include/ros_rosch/publish_counter.h
-	sudo cp ../include/ros_rosch/type.h /opt/ros/indigo/include/ros_rosch/type.h
-	echo "-------- Set real-time ROS file --------"
-	echo "sudo cp ./devel/lib/libroscpp.so /opt/ros/indigo/lib/libroscpp.so"
-	# echo "sudo cp ../include/ros/ros.h /opt/ros/indigo/include/ros/ros.h"
-	echo "sudo cp ../include/ros_rosch/publish_counter.h /opt/ros/indigo/include/ros_rosch/publish_counter.h"
-fi
-
-# For Ubuntu 16.04 (kinetic) 
-if [ -e /opt/ros/kinetic/lib/libroscpp.so ]; then
-	if [ ! -e /opt/ros/kinetic/lib/libroscpp.so.backup ]; then
-    echo "-------- Create backup file --------"
-    echo "sudo cp /opt/ros/kinetic/lib/libroscpp.so /opt/ros/kinetic/lib/libroscpp.so.backup"
-    sudo cp /opt/ros/kinetic/lib/libroscpp.so /opt/ros/kinetic/lib/libroscpp.so.backup
-    echo "------------------------------------"
-	fi
-	if [ ! -e /opt/ros/kinetic/include/ros/ros.h.backup ]; then
-    echo "-------- Create backup file --------"
-    echo "sudo cp /opt/ros/kinetic/include/ros/ros.h /opt/ros/kinetic/include/ros/ros.h.backup"
-    sudo cp /opt/ros/kinetic/include/ros/ros.h /opt/ros/kinetic/include/ros/ros.h.backup
-    echo "------------------------------------"
-	fi
-	sudo cp ./devel/lib/libroscpp.so /opt/ros/kinetic/lib/libroscpp.so
-	# sudo cp ../include/ros/ros.h /opt/ros/kinetic/include/ros/ros.h
-	if [ ! -e /opt/ros/kinetic/include/ros_rosch ]; then
-    sudo mkdir /opt/ros/kinetic/include/ros_rosch
-	fi
-	sudo cp ../include/ros_rosch/publish_counter.h /opt/ros/kinetic/include/ros_rosch/publish_counter.h
-	sudo cp ../include/ros_rosch/type.h /opt/ros/kinetic/include/ros_rosch/type.h
-	echo "-------- Set real-time ROS file --------"
-	echo "sudo cp ./devel/lib/libroscpp.so /opt/ros/kinetic/lib/libroscpp.so"
-	# echo "sudo cp ../include/ros/ros.h /opt/ros/kinetic/include/ros/ros.h"
-	echo "sudo cp ../include/ros_rosch/publish_counter.h /opt/ros/kinetic/include/ros_rosch/publish_counter.h"
-fi
-
-COMMENTOUT
-
-
-
-
-
 DISTRIBUTION="NULL"
 
 if [ -e /opt/ros/indigo/lib/libroscpp.so ]; then
