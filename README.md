@@ -12,6 +12,11 @@ The supported functions include:
 - ROS indigo (Ubuntu 14.04) or ROS kinetic (Ubuntu 16.04)
 - CUDA (Optional)
 
+## Coding Standards
+The following are regarding coding standards preferred in ROSCH.
+No need to throw away your coding style, just do your best to follow our standards.
+- See [CPFL/Autoware/wiki/Contribution-Rules#coding-standards](https://github.com/CPFL/Autoware/wiki/Contribution-Rules#coding-standards)
+
 ## How to install and use ROSCH
 
  1. [__Recommend__] You can create configuration files for using following functions, automatically.
